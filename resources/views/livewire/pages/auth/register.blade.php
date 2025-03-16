@@ -32,88 +32,80 @@ new #[Layout('layouts.guest')] class extends Component
             'national_number' => ['required', 'string', 'max:20', 'unique:users'],
             'job_number' => ['required', 'string', 'max:20', 'unique:users'],
             'phone_number' => ['required', 'string', 'max:15', 'unique:users'],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'password' => ['nullable'],
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        //$validated['password'] = Hash::make($validated['password']);
 
+         $validated['password'] = Hash::make($validated['passport_number']);
         event(new Registered($user = User::create($validated)));
 
         Auth::login($user);
 
-        $this->redirect(RouteServiceProvider::HOME, navigate: true);
+        $this->redirect("/", navigate: true);
     }
 }; ?>
 
-<div>
-    <form wire:submit="register">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Full Name -->
-            <div>
-                <x-input-label for="full_name" :value="__('Full Name')" />
-                <x-text-input wire:model="full_name" id="full_name" class="block mt-1 w-full" type="text" required autofocus />
-                <x-input-error :messages="$errors->get('full_name')" class="mt-2" />
+    <div class="w-full max-w-5xl bg-white p-8 rounded-2xl  text-right">
+        <!-- Header -->
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">
+            {{ __('إنشاء حساب جديد') }}
+        </h2>
+
+        <form wire:submit="register" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Full Name -->
+                <div>
+                    <x-input-label for="full_name" :value="__('الإسم الكامل')" />
+                    <x-text-input wire:model="full_name" id="full_name" type="text" class="w-full rounded-lg shadow-sm text-right" required autofocus />
+                    <x-input-error :messages="$errors->get('full_name')" />
+                </div>
+
+                <!-- Passport Name -->
+                <div>
+                    <x-input-label for="passport_name" :value="__('الإسم في جواز السفر')" />
+                    <x-text-input wire:model="passport_name" id="passport_name" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                    <x-input-error :messages="$errors->get('passport_name')" />
+                </div>
+
+                <!-- Passport Number -->
+                <div>
+                    <x-input-label for="passport_number" :value="__('رقم جواز السفر')" />
+                    <x-text-input wire:model="passport_number" id="passport_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                    <x-input-error :messages="$errors->get('passport_number')" />
+                </div>
+
+                <!-- National Number -->
+                <div>
+                    <x-input-label for="national_number" :value="__('الرقم الوطني')" />
+                    <x-text-input wire:model="national_number" id="national_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                    <x-input-error :messages="$errors->get('national_number')" />
+                </div>
+
+                <!-- Job Number -->
+                <div>
+                    <x-input-label for="job_number" :value="__('رقم الوظيفة')" />
+                    <x-text-input wire:model="job_number" id="job_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                    <x-input-error :messages="$errors->get('job_number')" />
+                </div>
+
+                <!-- Phone Number -->
+                <div>
+                    <x-input-label for="phone_number" :value="__('رقم الهاتف المربوط بالرقم الوطني')" />
+                    <x-text-input wire:model="phone_number" id="phone_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                    <x-input-error :messages="$errors->get('phone_number')" />
+                </div>
             </div>
 
-            <!-- Passport Name -->
-            <div>
-                <x-input-label for="passport_name" :value="__('Passport Name')" />
-                <x-text-input wire:model="passport_name" id="passport_name" class="block mt-1 w-full" type="text" required />
-                <x-input-error :messages="$errors->get('passport_name')" class="mt-2" />
+            <!-- Submit & Login Link -->
+            <div class="flex justify-between items-center mt-6">
+                <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-indigo-600">
+                    {{ __('هل لديك حساب بالفعل؟') }}
+                </a>
+
+                <x-primary-button>
+                    {{ __('تسجيل') }}
+                </x-primary-button>
             </div>
-
-            <!-- Passport Number -->
-            <div>
-                <x-input-label for="passport_number" :value="__('Passport Number')" />
-                <x-text-input wire:model="passport_number" id="passport_number" class="block mt-1 w-full" type="text" required />
-                <x-input-error :messages="$errors->get('passport_number')" class="mt-2" />
-            </div>
-
-            <!-- National Number -->
-            <div>
-                <x-input-label for="national_number" :value="__('National Number')" />
-                <x-text-input wire:model="national_number" id="national_number" class="block mt-1 w-full" type="text" required />
-                <x-input-error :messages="$errors->get('national_number')" class="mt-2" />
-            </div>
-
-            <!-- Job Number -->
-            <div>
-                <x-input-label for="job_number" :value="__('Job Number')" />
-                <x-text-input wire:model="job_number" id="job_number" class="block mt-1 w-full" type="text" required />
-                <x-input-error :messages="$errors->get('job_number')" class="mt-2" />
-            </div>
-
-            <!-- Phone Number -->
-            <div>
-                <x-input-label for="phone_number" :value="__('Phone Number')" />
-                <x-text-input wire:model="phone_number" id="phone_number" class="block mt-1 w-full" type="text" required />
-                <x-input-error :messages="$errors->get('phone_number')" class="mt-2" />
-            </div>
-
-            <!-- Password -->
-            <div>
-                <x-input-label for="password" :value="__('Password')" />
-                <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" required />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <!-- Confirm Password -->
-            <div>
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full" type="password" required />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
-        </div>
-
-        <!-- Buttons -->
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>

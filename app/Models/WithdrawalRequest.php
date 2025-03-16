@@ -14,4 +14,9 @@ class WithdrawalRequest extends Model
         'year',
         'percentage',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
