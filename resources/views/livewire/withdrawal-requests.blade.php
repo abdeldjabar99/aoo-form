@@ -13,6 +13,14 @@
         <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 <h3 class="text-lg font-semibold text-gray-700 mb-4">New Withdrawal Request</h3>
+                <!-- Year Dropdown -->
+                <label for="year" class="block text-sm font-medium">Year</label>
+                <select wire:model="selectedYear" wire:change="updateAvailableMonths" class="w-full border p-2 rounded mt-1">
+                    @for ($y = date('Y')-1; $y <= 2030; $y++)
+                        <option value="{{ $y }}">{{ $y }}</option>
+                    @endfor
+                </select>
+
 
                 <!-- Month Dropdown -->
                 <label class="block text-sm font-medium text-gray-600">Month</label>
@@ -83,6 +91,7 @@
                     <tr class="bg-gray-100 text-gray-700 text-sm">
                         <th class="border p-2 text-left">ID</th>
                         <th class="border p-2 text-left">Month</th>
+                        <th class="border p-2 text-left">Year</th>
                         <th class="border p-2 text-left">Percentage</th>
                         <th class="border p-2 text-left">Actions</th>
                     </tr>
@@ -92,6 +101,7 @@
                     <tr class="border-t hover:bg-gray-50 transition">
                         <td class="border p-2">{{ $request->id }}</td>
                         <td class="border p-2">{{ $request->month }}</td>
+                        <td class="border p-2">{{ $request->year }}</td>
                         <td class="border p-2">{{ $request->percentage }}%</td>
                         <td class="border p-2 flex space-x-2">
                             <!-- Edit Button -->

@@ -11,6 +11,7 @@ class WithdrawalRequest extends Model
         protected $fillable = [
         'user_id',
         'month',
+        'year',
         'percentage',
     ];
 }
