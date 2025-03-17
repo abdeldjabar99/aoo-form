@@ -13,45 +13,66 @@
                 @endforeach
             </select>
             
-        <button wire:click="applyFilters" class="bg-transparent text-blue-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 4h18M5 8h14M7 12h10m-3 4h-4"/>
-            </svg>
-        </button>
+            <button wire:click="applyFilters" class="bg-transparent text-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4h18M5 8h14M7 12h10m-3 4h-4"/>
+                </svg>
+            </button>
+
+            <!-- Print Button -->
+            <button onclick="printTable()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition flex items-center gap-2">
+                <span>Print Requests</span>
+            </button>
 
         </div>
 
         <!-- Withdrawal Requests Table -->
         <div class="bg-white shadow-lg rounded-lg p-4 overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-700 text-sm">
-                        <th class="border p-4  text-left">ID</th>
-                        <th class="border p-4  text-left">User</th>
-                        <th class="border p-4  text-left">Badge Number</th>
-                        <th class="border p-4  text-left">Year</th>
-                        <th class="border p-4  text-left">Month</th>
-                        <th class="border p-4 text-left">Percentage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($requests as $request)
-                        <tr class="border-t hover:bg-gray-50 transition">
-                            <td class="border p-4">{{ $request->id }}</td>
-                            <td class="border p-4">{{ $request->user->full_name ?? 'N/A' }}</td>
-                            <td class="border p-4">{{ $request->user->job_number ?? 'N/A' }}</td>
-                            <td class="border p-4">{{ $request->year }}</td>
-                            <td class="border p-4">{{ $request->month }}</td>
-                            <td class="border p-4">{{ $request->percentage }}%</td>
-
+            <div id="printableTable">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700 text-sm">
+                            <th class="border p-4 text-left">ID</th>
+                            <th class="border p-4 text-left">User</th>
+                            <th class="border p-4 text-left">Badge Number</th>
+                            <th class="border p-4 text-left">Year</th>
+                            <th class="border p-4 text-left">Month</th>
+                            <th class="border p-4 text-left">Percentage</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center text-gray-500 py-4">No withdrawal requests found.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse ($requests as $request)
+                            <tr class="border-t hover:bg-gray-50 transition">
+                                <td class="border p-4">{{ $request->id }}</td>
+                                <td class="border p-4">{{ $request->user->full_name ?? 'N/A' }}</td>
+                                <td class="border p-4">{{ $request->user->job_number ?? 'N/A' }}</td>
+                                <td class="border p-4">{{ $request->year }}</td>
+                                <td class="border p-4">{{ $request->month }}</td>
+                                <td class="border p-4">{{ $request->percentage }}%</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center text-gray-500 py-4">No withdrawal requests found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- JavaScript for Printing -->
+<script>
+    function printTable() {
+        var content = document.getElementById("printableTable").innerHTML;
+        var printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Print Table</title>');
+        printWindow.document.write('<style>table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid black; padding: 8px; text-align: left; } </style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(content);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+</script>
