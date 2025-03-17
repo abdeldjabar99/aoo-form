@@ -63,7 +63,7 @@ new #[Layout('layouts.guest')] class extends Component
 
                 <!-- Passport Name -->
                 <div>
-                    <x-input-label for="passport_name" :value="__('الإسم في جواز السفر')" />
+                    <x-input-label for="passport_name" :value="__('الإسم بإنجليزي كما  في جواز السفر')" />
                     <x-text-input wire:model="passport_name" id="passport_name" type="text" class="w-full rounded-lg shadow-sm text-right" required />
                     <x-input-error :messages="$errors->get('passport_name')" />
                 </div>
