@@ -25,47 +25,45 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
-    <!-- Session Status -->
+<div dir="rtl">
+    <!-- حالة الجلسة -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="login">
-        <!-- Job Number -->
-        <div>
-            <x-input-label for="job_number" :value="__('Job Number')" />
-            <x-text-input wire:model="form.job_number" id="job_number" class="block mt-1 w-full" type="text" required autofocus />
+        <!-- رقم الوظيفة -->
+        <div class="text-right">
+            <x-input-label for="job_number" :value="__('رقم الوظيفي')" />
+            <x-text-input wire:model="form.job_number" id="job_number" class="block mt-1 w-full rtl text-right" type="text" required autofocus />
             <x-input-error :messages="$errors->get('job_number')" class="mt-2" />
         </div>
 
+        <!-- كلمة المرور -->
+        <div class="mt-4 text-right">
+            <x-input-label for="password" :value="__('رقم جواز السفر')" />
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full rtl text-right"
+                          type="password"
+                          name="password"
+                          required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
+        <!-- تذكرني -->
+        <div class="block mt-4 text-right">
             <label for="remember" class="inline-flex items-center">
                 <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                <span class="me-2 text-sm text-gray-600">{{ __('تذكرني') }}</span>
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-          <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}" wire:navigate>
-                {{ __(' Register now') }}
+        <div class="flex items-center justify-end mt-4 text-right">
+            <a class="underline text-sm mx-2 text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}" wire:navigate>
+                {{ __('إنشاء حساب جديد') }}
             </a>
 
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
+            <x-primary-button class="me-3 mx-2">
+                {{ __('تسجيل الدخول') }}
             </x-primary-button>
         </div>
     </form>

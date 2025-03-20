@@ -19,6 +19,11 @@ new #[Layout('layouts.guest')] class extends Component
     public string $phone_number = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public bool $advance = false;
+    public bool $murabaha_purchase = false;
+    public string $management = '';
+    public string $department = '';
+    public string $workplace = '';
 
     /**
      * Handle an incoming registration request.
@@ -28,11 +33,16 @@ new #[Layout('layouts.guest')] class extends Component
         $validated = $this->validate([
             'full_name' => ['required', 'string', 'max:255'],
             'passport_name' => ['required', 'string', 'max:255'],
-            'passport_number' => ['required', 'string', 'max:20', 'unique:users'],
-            'national_number' => ['required', 'string', 'max:20', 'unique:users'],
+           'passport_number' => ['required', 'string', 'size:8', 'unique:users', 'regex:/^[A-Za-z0-9]+$/'], // Allows only letters and numbers
+            'national_number' => ['required', 'string', 'size:13', 'regex:/^[12][0-9]{12}$/', 'unique:users'], // 13 digits, starts with 1 or 2
             'job_number' => ['required', 'string', 'max:20', 'unique:users'],
             'phone_number' => ['required', 'string', 'max:15', 'unique:users'],
             'password' => ['nullable'],
+            'advance' => ['boolean'],
+            'murabaha_purchase' => ['boolean'],
+            'management' => ['nullable', 'string', 'max:255'],
+            'department' => ['nullable', 'string', 'max:255'],
+            'workplace' => ['nullable', 'string', 'max:255'],
         ]);
 
         //$validated['password'] = Hash::make($validated['password']);
@@ -46,66 +56,108 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-    <div class="w-full max-w-5xl bg-white p-8 rounded-2xl  text-right">
-        <!-- Header -->
-        <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">
-            {{ __('إنشاء حساب جديد') }}
-        </h2>
+<div class="w-full max-w-5xl bg-white p-8 rounded-2xl text-right">
+    <!-- Header -->
+    <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">
+        {{ __('إنشاء حساب جديد') }}
+    </h2>
 
-        <form wire:submit="register" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Full Name -->
-                <div>
-                    <x-input-label for="full_name" :value="__('الإسم الكامل')" />
-                    <x-text-input wire:model="full_name" id="full_name" type="text" class="w-full rounded-lg shadow-sm text-right" required autofocus />
-                    <x-input-error :messages="$errors->get('full_name')" />
-                </div>
-
-                <!-- Passport Name -->
-                <div>
-                    <x-input-label for="passport_name" :value="__('الإسم بإنجليزي كما  في جواز السفر')" />
-                    <x-text-input wire:model="passport_name" id="passport_name" type="text" class="w-full rounded-lg shadow-sm text-right" required />
-                    <x-input-error :messages="$errors->get('passport_name')" />
-                </div>
-
-                <!-- Passport Number -->
-                <div>
-                    <x-input-label for="passport_number" :value="__('رقم جواز السفر')" />
-                    <x-text-input wire:model="passport_number" id="passport_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
-                    <x-input-error :messages="$errors->get('passport_number')" />
-                </div>
-
-                <!-- National Number -->
-                <div>
-                    <x-input-label for="national_number" :value="__('الرقم الوطني')" />
-                    <x-text-input wire:model="national_number" id="national_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
-                    <x-input-error :messages="$errors->get('national_number')" />
-                </div>
-
-                <!-- Job Number -->
-                <div>
-                    <x-input-label for="job_number" :value="__('رقم الوظيفة')" />
-                    <x-text-input wire:model="job_number" id="job_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
-                    <x-input-error :messages="$errors->get('job_number')" />
-                </div>
-
-                <!-- Phone Number -->
-                <div>
-                    <x-input-label for="phone_number" :value="__('رقم الهاتف المربوط بالرقم الوطني')" />
-                    <x-text-input wire:model="phone_number" id="phone_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
-                    <x-input-error :messages="$errors->get('phone_number')" />
-                </div>
+    <form wire:submit="register" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Full Name -->
+            <div>
+                <x-input-label for="full_name" :value="__('الإسم الكامل')" />
+                <x-text-input wire:model="full_name" id="full_name" type="text" class="w-full rounded-lg shadow-sm text-right" required autofocus />
+                @error('full_name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Submit & Login Link -->
-            <div class="flex justify-between items-center mt-6">
-                <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-indigo-600">
-                    {{ __('هل لديك حساب بالفعل؟') }}
-                </a>
-
-                <x-primary-button>
-                    {{ __('تسجيل') }}
-                </x-primary-button>
+            <!-- Passport Name -->
+            <div>
+                <x-input-label for="passport_name" :value="__('الإسم بإنجليزي كما  في جواز السفر')" />
+                <x-text-input wire:model="passport_name" id="passport_name" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                @error('passport_name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
-        </form>
-    </div>
+
+            <!-- Passport Number -->
+            <div>
+                <x-input-label for="passport_number" :value="__('رقم جواز السفر')" />
+                <x-text-input wire:model="passport_number" id="passport_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                @error('passport_number') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- National Number -->
+            <div>
+                <x-input-label for="national_number" :value="__('الرقم الوطني')" />
+                <x-text-input wire:model="national_number" id="national_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                @error('national_number') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Job Number -->
+            <div>
+                <x-input-label for="job_number" :value="__('رقم الوظيفة')" />
+                <x-text-input wire:model="job_number" id="job_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                @error('job_number') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+                <x-input-label for="phone_number" :value="__('رقم الهاتف المربوط بالرقم الوطني')" />
+                <x-text-input wire:model="phone_number" id="phone_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
+                @error('phone_number') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Do you have an advance? -->
+            <div>
+                <x-input-label for="advance" :value="__('هل لديك سُلفة؟')" />
+                <input type="checkbox" wire:model="advance" id="advance" class="rounded">
+                @error('advance') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Do you have a purchase in Islamic Murabaha? -->
+            <div>
+                <x-input-label for="murabaha_purchase" :value="__('هل لديك شراء بمرابحة إسلامية؟')" />
+                <input type="checkbox" wire:model="murabaha_purchase" id="murabaha_purchase" class="rounded">
+                @error('murabaha_purchase') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Management -->
+            <div>
+                <x-input-label for="management" :value="__('الإدارة')" />
+                <x-text-input wire:model="management" id="management" type="text" class="w-full rounded-lg shadow-sm text-right" />
+                @error('management') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Department -->
+            <div>
+                <x-input-label for="department" :value="__('القسم')" />
+                <x-text-input wire:model="department" id="department" type="text" class="w-full rounded-lg shadow-sm text-right" />
+                @error('department') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Workplace -->
+<div class="md:col-span-2">
+    <x-input-label for="workplace" :value="__('مكان العمل')" />
+    <select wire:model="workplace" id="workplace" class="w-full rounded-lg shadow-sm text-right">
+        <option value="">{{ __('اختر مكان العمل') }}</option>
+        <option value="طرابلس">طرابلس</option>
+        <option value="الزاوية">الزاوية</option>
+        <option value="الحقل">الحقل</option>
+        <option value="الحمادة">الحمادة</option>
+    </select>
+    @error('workplace') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+</div>
+
+        </div>
+
+        <!-- Submit & Login Link -->
+        <div class="flex justify-between items-center mt-6">
+            <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-indigo-600">
+                {{ __('هل لديك حساب بالفعل؟') }}
+            </a>
+
+            <x-primary-button>
+                {{ __('تسجيل') }}
+            </x-primary-button>
+        </div>
+    </form>
+</div>

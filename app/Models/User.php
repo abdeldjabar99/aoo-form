@@ -26,6 +26,11 @@ class User extends Authenticatable
         'job_number',
         'phone_number',
         'password',
+        'advance',
+        'murabaha_purchase',
+        'management',
+        'department',
+        'workplace',
     ];
 
 
