@@ -105,20 +105,38 @@ new #[Layout('layouts.guest')] class extends Component
                 <x-text-input wire:model="phone_number" id="phone_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
                 @error('phone_number') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
-
             <!-- Do you have an advance? -->
             <div>
                 <x-input-label for="advance" :value="__('هل لديك سُلفة؟')" />
-                <input type="checkbox" wire:model="advance" id="advance" class="rounded">
+                <div class="flex space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" wire:model="advance" value="1" class="rounded">
+                        <span class="ml-2">نعم</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" wire:model="advance" value="0" class="rounded">
+                        <span class="ml-2">لا</span>
+                    </label>
+                </div>
                 @error('advance') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Do you have a purchase in Islamic Murabaha? -->
             <div>
                 <x-input-label for="murabaha_purchase" :value="__('هل لديك شراء بمرابحة إسلامية؟')" />
-                <input type="checkbox" wire:model="murabaha_purchase" id="murabaha_purchase" class="rounded">
+                <div class="flex space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" wire:model="murabaha_purchase" value="1" class="rounded">
+                        <span class="ml-2">نعم</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" wire:model="murabaha_purchase" value="0" class="rounded">
+                        <span class="ml-2">لا</span>
+                    </label>
+                </div>
                 @error('murabaha_purchase') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
+
 
             <!-- Management -->
             <div>

@@ -41,8 +41,11 @@
                     <option value="0">0%</option>
                     <option value="20">20%</option>
                     <option value="50">50%</option>
-                    <option value="70">70%</option>
-                    <option value="100">100%</option>
+
+                    @if (!auth()->user()->advance && !auth()->user()->murabaha_purchase)
+                        <option value="70">70%</option>
+                        <option value="100">100%</option>
+                    @endif
                 </select>
                 @error('percentage') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
