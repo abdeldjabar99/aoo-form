@@ -34,7 +34,7 @@ new #[Layout('layouts.guest')] class extends Component
             'full_name' => ['required', 'string', 'max:255'],
             'passport_name' => ['required', 'string', 'max:255'],
            'passport_number' => ['required', 'string', 'size:8', 'unique:users', 'regex:/^[A-Za-z0-9]+$/'], // Allows only letters and numbers
-            'national_number' => ['required', 'string', 'size:13', 'regex:/^[12][0-9]{12}$/', 'unique:users'], // 13 digits, starts with 1 or 2
+            'national_number' => ['required', 'string', 'size:12', 'regex:/^[12][0-9]{11}$/', 'unique:users'], // 13 digits, starts with 1 or 2
             'job_number' => ['required', 'string', 'max:20', 'unique:users'],
             'phone_number' => ['required', 'string', 'max:15', 'unique:users'],
             'password' => ['nullable'],
