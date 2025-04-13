@@ -34,20 +34,22 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="text-right">
             <x-input-label for="job_number" :value="__('رقم الوظيفي')" />
             <x-text-input wire:model="form.job_number" id="job_number" class="block mt-1 w-full rtl text-right" type="text" required autofocus />
-            <x-input-error :messages="$errors->get('job_number')" class="mt-2" />
+            <x-input-error :messages="$errors->get('form.job_number')" class="mt-2" />
         </div>
+
 
         <!-- كلمة المرور -->
         <div class="mt-4 text-right">
-            <x-input-label for="password" :value="__('رقم جواز السفر')" />
+            <x-input-label for="password" :value="__('كلمة المرور')" />
 
             <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full rtl text-right"
-                          type="password"
-                          name="password"
-                          required autocomplete="current-password" />
+                        type="password"
+                        name="password"
+                        required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
+
 
         <!-- تذكرني -->
         <div class="block mt-4 text-right">

@@ -1,4 +1,30 @@
 <div class="py-12">
+    @if($showPasswordForm)
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
+            <h3 class="text-lg font-bold mb-4">Set New Password</h3>
+            <input type="password" wire:model.defer="newPassword"
+                   class="w-full border p-2 rounded mb-4" placeholder="Enter new password">
+
+            <div class="flex justify-end space-x-2">
+                <button wire:click="updatePassword"
+                        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                    Save
+                </button>
+                <button wire:click="$set('showPasswordForm', false)"
+                        class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+@endif
+@if (session()->has('message'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
+        {{ session('message') }}
+    </div>
+@endif
+
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
@@ -51,6 +77,10 @@
                                                 onclick="confirm('Are you sure you want to delete this employee?') || event.stopImmediatePropagation()"
                                                 wire:click="delete({{ $employee->id }})">
                                             Delete
+                                        </button>
+                                         <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg"
+                                                wire:click="showPasswordModal({{ $employee->id }})">
+                                            Set Password
                                         </button>
                                     </td>
                                 </tr>

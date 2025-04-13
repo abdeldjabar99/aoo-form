@@ -37,7 +37,7 @@ new #[Layout('layouts.guest')] class extends Component
             'national_number' => ['required', 'string', 'size:12', 'regex:/^[12][0-9]{11}$/', 'unique:users'], // 13 digits, starts with 1 or 2
             'job_number' => ['required', 'string', 'max:20', 'unique:users'],
             'phone_number' => ['required', 'string', 'max:15', 'unique:users'],
-            'password' => ['nullable'],
+            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
             'advance' => ['boolean'],
             'murabaha_purchase' => ['boolean'],
             'management' => ['nullable', 'string', 'max:255'],
@@ -45,9 +45,10 @@ new #[Layout('layouts.guest')] class extends Component
             'workplace' => ['nullable', 'string', 'max:255'],
         ]);
 
-        //$validated['password'] = Hash::make($validated['password']);
+       // dd($validated);
+        $validated['password'] = Hash::make($validated['password']);
 
-         $validated['password'] = Hash::make($validated['passport_number']);
+         //$validated['password'] = Hash::make($validated['passport_number']);
         event(new Registered($user = User::create($validated)));
 
         Auth::login($user);
@@ -104,6 +105,18 @@ new #[Layout('layouts.guest')] class extends Component
                 <x-input-label for="phone_number" :value="__('رقم الهاتف المربوط بالرقم الوطني')" />
                 <x-text-input wire:model="phone_number" id="phone_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
                 @error('phone_number') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Confirm Password -->
+            <div>
+                <x-input-label for="password_confirmation" :value="__('تأكيد كلمة المرور')" />
+                <x-text-input wire:model="password_confirmation" id="password_confirmation" type="password" class="w-full rounded-lg shadow-sm text-right" required />
+            </div>
+            <!-- Password -->
+            <div>
+                <x-input-label for="password" :value="__('كلمة المرور')" />
+                <x-text-input wire:model="password" id="password" type="password" class="w-full rounded-lg shadow-sm text-right" required />
+                @error('password') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
             <!-- Do you have an advance? -->
             <div>

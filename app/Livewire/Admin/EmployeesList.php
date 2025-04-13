@@ -11,11 +11,37 @@ class EmployeesList extends Component
 
     public $search = '';
 
+    public $selectedEmployeeId;
+    public $newPassword;
+    public $showPasswordForm = false;
+
+
     public function updatingSearch()
     {
         $this->resetPage(); // Reset pagination when searching
     }
 
+
+    public function showPasswordModal($id)
+    {
+        $this->selectedEmployeeId = $id;
+        $this->newPassword = '';
+        $this->showPasswordForm = true;
+    }
+
+    public function updatePassword()
+    {
+        $this->validate([
+            'newPassword' => 'required|min:6',
+        ]);
+
+        $employee = User::findOrFail($this->selectedEmployeeId);
+        $employee->password = bcrypt($this->newPassword);
+        $employee->save();
+
+        $this->showPasswordForm = false;
+        session()->flash('message', 'Password updated successfully!');
+    }
     public function render()
     {
         $employees = User::whereHas('roles', function ($query) {
