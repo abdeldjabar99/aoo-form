@@ -58,6 +58,13 @@ new #[Layout('layouts.guest')] class extends Component
                 <span class="me-2 text-sm text-gray-600">{{ __('تذكرني') }}</span>
             </label>
         </div>
+        <!-- نسيت كلمة المرور -->
+        <div class="mt-4 text-right">
+            <a href="{{ route('password.request') }}"
+            class="text-sm text-indigo-600 hover:underline hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{ __('نسيت كلمة المرور؟') }}
+            </a>
+        </div>
 
         <div class="flex items-center justify-end mt-4 text-right">
             <a class="underline text-sm mx-2 text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}" wire:navigate>

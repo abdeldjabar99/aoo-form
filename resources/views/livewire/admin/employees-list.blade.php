@@ -44,6 +44,7 @@
                             <tr class="bg-blue-100 text-gray-700 text-sm">
                                 <th class="border p-3 text-left">ID</th>
                                 <th class="border p-3 text-left">Full Name</th>
+                                <th class="border p-3 text-left">Email</th>
                                 <th class="border p-3 text-left">Passport Name</th>
                                 <th class="border p-3 text-left">Passport Number</th>
                                 <th class="border p-3 text-left">National Number</th>
@@ -62,6 +63,7 @@
                                 <tr class="border-t hover:bg-gray-50 transition">
                                     <td class="border p-3">{{ $employee->id }}</td>
                                     <td class="border p-3">{{ $employee->full_name }}</td>
+                                    <td class="border p-3">{{ $employee->email }}</td>
                                     <td class="border p-3">{{ $employee->passport_name }}</td>
                                     <td class="border p-3">{{ $employee->passport_number }}</td>
                                     <td class="border p-3">{{ $employee->national_number }}</td>

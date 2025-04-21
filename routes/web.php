@@ -49,7 +49,18 @@ Route::post('/logout', function (Request $request) {
     return redirect('/');
 })->name('logout');
 
-
+use Illuminate\Support\Facades\Mail;
+/*
+Route::get('/send-test-email', function () {
+    $to = 'abdeldjabar.ahmeidi@gmail.com';  // Replace with the recipient's email address.
+    
+    Mail::raw('Test email body', function ($message) use ($to) {
+        $message->to($to)
+                ->subject('Test Email');
+    });
+    
+    return 'Email Sent';
+});*/
 
 require __DIR__.'/auth.php';
 

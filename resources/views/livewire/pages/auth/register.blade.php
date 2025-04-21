@@ -12,6 +12,7 @@ use Livewire\Volt\Component;
 new #[Layout('layouts.guest')] class extends Component
 {
     public string $full_name = '';
+    public string $email = ''; 
     public string $passport_name = '';
     public string $passport_number = '';
     public string $national_number = '';
@@ -32,6 +33,7 @@ new #[Layout('layouts.guest')] class extends Component
     {
         $validated = $this->validate([
             'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'passport_name' => ['required', 'string', 'max:255'],
            'passport_number' => ['required', 'string', 'size:8', 'unique:users', 'regex:/^[A-Za-z0-9]+$/'], // Allows only letters and numbers
             'national_number' => ['required', 'string', 'size:12', 'regex:/^[12][0-9]{11}$/', 'unique:users'], // 13 digits, starts with 1 or 2
@@ -71,7 +73,6 @@ new #[Layout('layouts.guest')] class extends Component
                 <x-text-input wire:model="full_name" id="full_name" type="text" class="w-full rounded-lg shadow-sm text-right" required autofocus />
                 @error('full_name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
-
             <!-- Passport Name -->
             <div>
                 <x-input-label for="passport_name" :value="__('الإسم بإنجليزي كما  في جواز السفر')" />
@@ -106,7 +107,13 @@ new #[Layout('layouts.guest')] class extends Component
                 <x-text-input wire:model="phone_number" id="phone_number" type="text" class="w-full rounded-lg shadow-sm text-right" required />
                 @error('phone_number') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
-
+            <div class="md:col-span-2">
+            <!-- Email -->
+            <div>
+                <x-input-label for="email" :value="__('البريد الإلكتروني')" />
+                <x-text-input wire:model="email" id="email" type="email" class="w-full rounded-lg shadow-sm text-right" required />
+            </div>
+            </div>
             <!-- Confirm Password -->
             <div>
                 <x-input-label for="password_confirmation" :value="__('تأكيد كلمة المرور')" />
