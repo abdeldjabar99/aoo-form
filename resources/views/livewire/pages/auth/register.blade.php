@@ -25,6 +25,7 @@ new #[Layout('layouts.guest')] class extends Component
     public string $management = '';
     public string $department = '';
     public string $workplace = '';
+    public bool $showTermsModal = false;
 
     /**
      * Handle an incoming registration request.
@@ -56,6 +57,11 @@ new #[Layout('layouts.guest')] class extends Component
         Auth::login($user);
 
         $this->redirect("/", navigate: true);
+    }
+
+    public function confirmTerms()
+    {
+        $this->showTermsModal = true;
     }
 }; ?>
 
@@ -193,9 +199,90 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('هل لديك حساب بالفعل؟') }}
             </a>
 
-            <x-primary-button>
+            <x-primary-button type="button" wire:click="confirmTerms">
                 {{ __('تسجيل') }}
             </x-primary-button>
         </div>
     </form>
+    @if($showTermsModal)
+<div class="fixed inset-0 flex items-center  justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl text-right">
+        <h3 class="text-xl font-bold mb-4">الشروط والأحكام</h3>
+        <div class="overflow-y-auto max-h-80 mb-4 text-sm leading-relaxed">
+            <p class="mb-2">يرجى قراءة الشروط والأحكام بعناية قبل المتابعة. بضغطك على "موافق"، فإنك توافق على جميع البنود المذكورة.</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <strong class="block mb-1">المادة رقم 1:</strong>
+                    <p>تخضع عمليات السحب النقدي على الصرافات الآلية لعمولات تخصم لصالح الطرف الثاني حسب البيان التالي:</p>
+                    <table class="w-full border text-right mt-2 text-sm">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border p-2">القيمة</th>
+                                <th class="border p-2">عمولة الآلة (للعملية الواحدة)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border p-2">800 د.ل</td>
+                                <td class="border p-2">10 د.ل</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-2">مع مراعاة الملاحظات التالية:</p>
+                    <ul class="list-disc pr-5 mt-1 space-y-1">
+                        <li>السقف اليومي لعمليات السحب (5,000 د.ل).</li>
+                        <li>قدرة السحب للآلة أربعون ورقة نقدية للعملية الواحدة.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <strong class="block mb-1">المادة رقم 2:</strong>
+                    <p>
+                        تخضع أي خدمات أخرى تقوم آلة السحب الآلي بتقديمها لنشرة العمولات المحددة من قبل الطرف الثاني، 
+                        كما تخضع البطاقة للعمولات الخاصة بالموزع الوطني (نمو) حين الاستخدام خارج آلات الصراف الآلي للطرف الثاني.
+                    </p>
+                </div>
+
+                <div>
+                    <strong class="block mb-1">المادة رقم 3:</strong>
+                    <p>تخضع عمليات إصدار البطاقات لعمولات يتم خصمها من حساب الطرف الأول لدى الطرف الثاني وفقًا للجدول الآتي:</p>
+                    <table class="w-full border text-right mt-2 text-sm">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border p-2">العملية</th>
+                                <th class="border p-2">عمولة المصرف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border p-2">إصدار وتجديد بطاقة</td>
+                                <td class="border p-2">40 د.ل (صلاحية سنتان)</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2">إصدار رقم سري</td>
+                                <td class="border p-2">مجاني</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2">إصدار بطاقة بدل فاقد</td>
+                                <td class="border p-2">50 د.ل</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2">إصدار رقم سري بدل فاقد</td>
+                                <td class="border p-2">مجاني</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4">
+            <button wire:click="$set('showTermsModal', false)" class="text-gray-600 hover:text-red-600">لا أوافق</button>
+            <button wire:click="register" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">موافق</button>
+        </div>
+    </div>
+</div>
+@endif
+
 </div>
