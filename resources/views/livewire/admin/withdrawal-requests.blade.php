@@ -37,7 +37,7 @@
                             <th class="border p-4 text-left">Badge Number</th>
                             <th class="border p-4 text-left">Year</th>
                             <th class="border p-4 text-left">Month</th>
-                            <th class="border p-4 text-left">Percentage</th>
+                           <!-- <th class="border p-4 text-left">Percentage</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +48,7 @@
                                 <td class="border p-4">{{ $request->user->job_number ?? 'N/A' }}</td>
                                 <td class="border p-4">{{ $request->year }}</td>
                                 <td class="border p-4">{{ $request->month }}</td>
-                                <td class="border p-4">{{ $request->percentage }}%</td>
+                               <!-- <td class="border p-4">{{ $request->percentage }}%</td>-->
                             </tr>
                         @empty
                             <tr>

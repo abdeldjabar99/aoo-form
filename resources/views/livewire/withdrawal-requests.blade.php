@@ -33,22 +33,7 @@
                 </select>
                 @error('month') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
-                <!-- Percentage Dropdown -->
-                <label class="block text-sm font-medium text-gray-600 mt-2">Percentage</label>
-                <select wire:model="percentage"
-                    class="w-full border p-2 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    <option value="">-- Select Percentage --</option>
-                    <option value="0">0%</option>
-                    <option value="20">20%</option>
-                    <option value="50">50%</option>
-
-                    @if (!auth()->user()->advance && !auth()->user()->murabaha_purchase)
-                        <option value="70">70%</option>
-                        <option value="100">100%</option>
-                    @endif
-                </select>
-                @error('percentage') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-
+                
                 <!-- Modal Actions -->
                 <div class="flex justify-end space-x-2 mt-4">
                     <button class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
@@ -95,7 +80,7 @@
                         <th class="border p-2 text-left">ID</th>
                         <th class="border p-2 text-left">Month</th>
                         <th class="border p-2 text-left">Year</th>
-                        <th class="border p-2 text-left">Percentage</th>
+                        <!--<th class="border p-2 text-left">Percentage</th>-->
                         <th class="border p-2 text-left">Actions</th>
                     </tr>
                 </thead>
@@ -105,14 +90,14 @@
                         <td class="border p-2">{{ $request->id }}</td>
                         <td class="border p-2">{{ $request->month }}</td>
                         <td class="border p-2">{{ $request->year }}</td>
-                        <td class="border p-2">{{ $request->percentage }}%</td>
+                        <!--<td class="border p-2">{{ $request->percentage }}%</td>-->
                         <td class="border p-2 flex space-x-2">
-                            <!-- Edit Button -->
+                            <!-- Edit Button 
                             <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-lg text-sm"
                                 wire:click="edit({{ $request->id }})">
                                 Edit
                             </button>
-
+                            -->
                             <!-- Delete Button -->
                             <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm"
                                 wire:click="delete({{ $request->id }})"

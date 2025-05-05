@@ -98,14 +98,13 @@ public function mount()
                     }
                 }
             ],
-            'percentage' => 'required|numeric|min:1|max:100',
         ]);
 
         WithdrawalRequest::create([
             'user_id' => auth()->id(),
             'year' => $this->selectedYear, // Now using selectedYear
             'month' => $this->month,
-            'percentage' => $this->percentage,
+            'percentage' =>"0",
         ]);
 
         $this->closeModal();

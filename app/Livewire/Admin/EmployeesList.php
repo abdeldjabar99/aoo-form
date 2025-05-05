@@ -42,6 +42,14 @@ class EmployeesList extends Component
         $this->showPasswordForm = false;
         session()->flash('message', 'Password updated successfully!');
     }
+
+    public function delete($id)
+    {
+        $employee = User::findOrFail($id);
+        $employee->delete();
+
+        session()->flash('message', 'Employee deleted successfully!');
+    }
     public function render()
     {
         $employees = User::whereHas('roles', function ($query) {

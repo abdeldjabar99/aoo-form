@@ -20,8 +20,8 @@ new #[Layout('layouts.guest')] class extends Component
     public string $phone_number = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public bool $advance = false;
-    public bool $murabaha_purchase = false;
+    //public bool $advance = false;
+    //public bool $murabaha_purchase = false;
     public string $management = '';
     public string $department = '';
     public string $workplace = '';
@@ -41,8 +41,8 @@ new #[Layout('layouts.guest')] class extends Component
             'job_number' => ['required', 'string', 'max:20', 'unique:users'],
             'phone_number' => ['required', 'string', 'max:15', 'unique:users'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'advance' => ['boolean'],
-            'murabaha_purchase' => ['boolean'],
+            //'advance' => ['boolean'],
+            //'murabaha_purchase' => ['boolean'],
             'management' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'workplace' => ['nullable', 'string', 'max:255'],
@@ -131,37 +131,7 @@ new #[Layout('layouts.guest')] class extends Component
                 <x-text-input wire:model="password" id="password" type="password" class="w-full rounded-lg shadow-sm text-right" required />
                 @error('password') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
-            <!-- Do you have an advance? -->
-            <div>
-                <x-input-label for="advance" :value="__('هل لديك سُلفة؟')" />
-                <div class="flex space-x-4">
-                    <label class="flex items-center">
-                        <input type="radio" wire:model="advance" value="1" class="rounded">
-                        <span class="ml-2">نعم</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="radio" wire:model="advance" value="0" class="rounded">
-                        <span class="ml-2">لا</span>
-                    </label>
-                </div>
-                @error('advance') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-            </div>
 
-            <!-- Do you have a purchase in Islamic Murabaha? -->
-            <div>
-                <x-input-label for="murabaha_purchase" :value="__('هل لديك شراء بمرابحة إسلامية؟')" />
-                <div class="flex space-x-4">
-                    <label class="flex items-center">
-                        <input type="radio" wire:model="murabaha_purchase" value="1" class="rounded">
-                        <span class="ml-2">نعم</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="radio" wire:model="murabaha_purchase" value="0" class="rounded">
-                        <span class="ml-2">لا</span>
-                    </label>
-                </div>
-                @error('murabaha_purchase') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-            </div>
 
 
             <!-- Management -->
